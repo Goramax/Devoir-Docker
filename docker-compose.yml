@@ -9,30 +9,42 @@ services:
       - MYSQL_USER=api
       - MYSQL_PASSWORD=w%CYo%8*APtFaX^dUdwZ
     volumes:
-      - db:/var/lib/mysql
+      - ./volumes/db:/var/lib/mysql
     # exposition temporaires des ports pour le debug
     ports:
       - "3306:3306"
-
-  api:
-    build: ./api
+    
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=JBBbzTaZsuu^H7WDnhLn
     ports:
-      - "3000:3000"
+      - "8080:80"
     depends_on:
       - db
-    restart: unless-stopped
-    environment:
-      - DB_HOST=db
-      - DB_USER=api
-      - DB_PASSWORD=w%CYo%8*APtFaX^dUdwZ
-      - DB_NAME=todo
 
-  front:
-    build: ./front
-    ports:
-      - "80:80"
-    depends_on:
-      - api
-    restart: unless-stopped
-    environment:
-      - API_URL=http://api:3000
+  # api:
+  #   build: ./api
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - db
+  #   restart: unless-stopped
+  #   environment:
+  #     - DB_HOST=db
+  #     - DB_USER=api
+  #     - DB_PASSWORD=w%CYo%8*APtFaX^dUdwZ
+  #     - DB_NAME=todo
+
+  # front:
+  #   build: ./front
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - api
+  #   restart: unless-stopped
+  #   environment:
+  #     - API_URL=http://api:3000
