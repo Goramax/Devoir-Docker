@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  db:
+    image: mysql@sha256:8b8835a2c32cd7357a5d2ea4b49ad870ff519c8c1d4add362803feddf4a0a973
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=JBBbzTaZsuu^H7WDnhLn
+      - MYSQL_DATABASE=todo
+      - MYSQL_USER=api
+      - MYSQL_PASSWORD=w%CYo%8*APtFaX^dUdwZ
+    volumes:
+      - db:/var/lib/mysql
+    # exposition temporaires des ports pour le debug
+    ports:
+      - "3306:3306"
+
+  api:
+    build: ./api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_USER=api
+      - DB_PASSWORD=w%CYo%8*APtFaX^dUdwZ
+      - DB_NAME=todo
+
+  front:
+    build: ./front
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+    environment:
+      - API_URL=http://api:3000
