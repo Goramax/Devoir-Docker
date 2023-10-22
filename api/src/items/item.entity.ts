@@ -1,17 +1,24 @@
 import { List } from 'src/lists/list.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Item {
   @PrimaryGeneratedColumn()
-  public id?: number;
+  public id!: number;
 
   @Column()
-  public text?: string;
+  public text!: string;
 
-  @Column()
-  public isCompleted?: boolean;
+  @Column({ default: false })
+  public isCompleted: boolean;
 
   @ManyToOne(() => List, (list) => list.items)
-  public list?: List;
+  @JoinColumn({ name: 'listId' })
+  public list!: List;
 }
