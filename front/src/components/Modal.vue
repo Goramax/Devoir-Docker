@@ -23,7 +23,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
+    backdrop-filter: blur(3px);
+    background-color: rgba(0,0,0,0.2);
 }
 
 .modal {

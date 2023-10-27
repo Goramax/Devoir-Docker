@@ -18,7 +18,7 @@ export class Item {
   @Column({ default: false })
   public isCompleted: boolean;
 
-  @ManyToOne(() => List, (list) => list.items)
+  @ManyToOne(() => List, (list) => list.items, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'listId' })
   public list!: List;
 }
