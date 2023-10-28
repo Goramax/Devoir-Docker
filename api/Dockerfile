@@ -16,7 +16,8 @@ ENV DB_PORT='3306'
 ENV DB_USER='root'
 ENV DB_PASSWORD='root'
 ENV DB_NAME='todo'
-ENV DEV='false'
+# For auto database sync (i know, it shouldn't be used in prod and i should use migrations)
+ENV DEV='true'
 
 WORKDIR /app
 COPY --from=build /app/dist ./dist

@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   db:
     image: mysql@sha256:8b8835a2c32cd7357a5d2ea4b49ad870ff519c8c1d4add362803feddf4a0a973
@@ -10,23 +11,9 @@ services:
       - MYSQL_PASSWORD=w%CYo%8*APtFaX^dUdwZ
     volumes:
       - ./volumes/db:/var/lib/mysql
-    # exposition temporaires des ports pour le debug
-    # ports:
-    #   - "3306:3306"
-    
-  phpmyadmin:
-    image: phpmyadmin:latest
-    restart: unless-stopped
-    environment:
-      - PMA_HOST=db
-      - PMA_USER=root
-      - PMA_PASSWORD=JBBbzTaZsuu^H7WDnhLn
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
 
   api:
+    image: goramax/api:latest
     build: ./api
     depends_on:
       - db
@@ -37,13 +24,13 @@ services:
       - DB_PASSWORD=w%CYo%8*APtFaX^dUdwZ
       - DB_NAME=todo
       - DB_PORT=3306
-      - DEV=false
     # Because the front is CSR, i need to expose the api port.
     # If the front was SSR, i could use the docker network to communicate between the front and the api
     ports:
       - "3000:3000"
 
   front:
+    image: goramax/front:latest
     build: ./front
     ports:
       - "80:80"
