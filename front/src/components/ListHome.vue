@@ -97,7 +97,7 @@ export default {
 
   methods: {
     async getData() {
-      const response = await fetch("http://" + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + "/lists");
+      const response = await fetch(import.meta.env.VITE_API_URL + "/lists");
       const data = await response.json();
       this.lists = data;
     },
@@ -112,7 +112,7 @@ export default {
 
     async deleteList(id: number, e: Event) {
       e.preventDefault();
-      const response = await fetch(`http://` + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + `/lists/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/lists/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {

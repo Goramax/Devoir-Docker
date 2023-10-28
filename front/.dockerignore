@@ -1,6 +1,8 @@
 node_modules
 dist
+.env
 .git
+.gitignore
 .vscode
-*.md
+.md
 Dockerfile

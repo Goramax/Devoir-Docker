@@ -54,21 +54,21 @@ export default {
   methods: {
     async getData() {
       const response = await fetch(
-        `http://` + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + `/items/list/${this.$route.params.id}`
+        import.meta.env.VITE_API_URL + `/items/list/${this.$route.params.id}`
       );
       const data = await response.json();
       this.items = data;
     },
     async getList() {
       const response = await fetch(
-        `http://` + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + `/lists/${this.$route.params.id}`
+        import.meta.env.VITE_API_URL + `/lists/${this.$route.params.id}`
       );
       const data = await response.json();
       this.list = data;
     },
     async deleteItem(id: number, event: Event) {
       event.preventDefault();
-      const response = await fetch(`http://` + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + `/items/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/items/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {
@@ -79,7 +79,7 @@ export default {
     },
     async toggleItem(id: number, event: Event) {
       event.stopPropagation();
-      const response = await fetch(`http://` + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + `/items/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/items/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

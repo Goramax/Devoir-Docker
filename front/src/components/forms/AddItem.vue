@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     async submitForm() {
-      const response = await fetch("http://" + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + "/items", {
+      const response = await fetch(import.meta.env.VITE_API_URL + "/items", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

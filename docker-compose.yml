@@ -11,8 +11,8 @@ services:
     volumes:
       - ./volumes/db:/var/lib/mysql
     # exposition temporaires des ports pour le debug
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"
     
   phpmyadmin:
     image: phpmyadmin:latest
@@ -26,25 +26,27 @@ services:
     depends_on:
       - db
 
-  # api:
-  #   build: ./api
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - db
-  #   restart: unless-stopped
-  #   environment:
-  #     - DB_HOST=db
-  #     - DB_USER=api
-  #     - DB_PASSWORD=w%CYo%8*APtFaX^dUdwZ
-  #     - DB_NAME=todo
+  api:
+    build: ./api
+    depends_on:
+      - db
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_USER=api
+      - DB_PASSWORD=w%CYo%8*APtFaX^dUdwZ
+      - DB_NAME=todo
+      - DB_PORT=3306
+      - DEV=false
+    # Because the front is CSR, i need to expose the api port.
+    # If the front was SSR, i could use the docker network to communicate between the front and the api
+    ports:
+      - "3000:3000"
 
-  # front:
-  #   build: ./front
-  #   ports:
-  #     - "80:80"
-  #   depends_on:
-  #     - api
-  #   restart: unless-stopped
-  #   environment:
-  #     - API_URL=http://api:3000
+  front:
+    build: ./front
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    environment:
+      - API_URL=http://localhost:3000
