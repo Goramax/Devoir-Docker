@@ -18,7 +18,7 @@
     </button>
   </div>
   <Modal v-if="isModalOpen" @close="closeModal" title="Nouvelle liste">
-    <AddList @closeModal="closeModal" @refreshData="refreshData" />
+    <AddList @closeModal="closeModal" @refreshData="getData" />
   </Modal>
 </template>
 
@@ -83,23 +83,23 @@
 <script setup lang="ts">
 import Modal from "@/components/Modal.vue";
 import AddList from "@/components/forms/AddList.vue";
+import { List } from "@/models/list.model";
 </script>
 
 <script lang="ts">
 export default {
   data() {
     return {
-      lists: [],
+      lists: [] as List[],
       isModalOpen: false,
     };
   },
 
   methods: {
     async getData() {
-      const response = await fetch("http://localhost:3000/lists");
+      const response = await fetch("http://" + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + "/lists");
       const data = await response.json();
       this.lists = data;
-      console.log(data);
     },
 
     openModal() {
@@ -110,13 +110,9 @@ export default {
       this.isModalOpen = false;
     },
 
-    refreshData() {
-      this.getData();
-    },
-
     async deleteList(id: number, e: Event) {
       e.preventDefault();
-      const response = await fetch(`http://localhost:3000/lists/${id}`, {
+      const response = await fetch(`http://` + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + `/lists/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {

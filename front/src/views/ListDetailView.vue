@@ -19,7 +19,7 @@
           /></span>
           <input
             type="checkbox"
-            :id="item.id"
+            :id="item.id.toString()"
             :checked="item.isCompleted"
             @change="toggleItem(item.id, $event)"
           />
@@ -31,42 +31,44 @@
     </div>
   </div>
   <Modal v-if="isModalOpen" @close="closeModal" title="Nouvel item">
-    <AddItem @closeModal="closeModal" @refreshData="refreshData" />
+    <AddItem @closeModal="closeModal" @refreshData="getData" />
   </Modal>
 </template>
 
 <script setup lang="ts">
 import Modal from "@/components/Modal.vue";
 import AddItem from "@/components/forms/AddItem.vue";
+import { List } from "@/models/list.model";
+import { Item } from "@/models/item.model";
 </script>
 
 <script lang="ts">
 export default {
   data() {
     return {
-      items: [],
-      list: {},
+      items: [] as Item[],
+      list: {} as List,
       isModalOpen: false,
     };
   },
   methods: {
     async getData() {
       const response = await fetch(
-        `http://localhost:3000/items/list/${this.$route.params.id}`
+        `http://` + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + `/items/list/${this.$route.params.id}`
       );
       const data = await response.json();
       this.items = data;
     },
     async getList() {
       const response = await fetch(
-        `http://localhost:3000/lists/${this.$route.params.id}`
+        `http://` + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + `/lists/${this.$route.params.id}`
       );
       const data = await response.json();
       this.list = data;
     },
     async deleteItem(id: number, event: Event) {
       event.preventDefault();
-      const response = await fetch(`http://localhost:3000/items/${id}`, {
+      const response = await fetch(`http://` + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + `/items/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {
@@ -77,13 +79,13 @@ export default {
     },
     async toggleItem(id: number, event: Event) {
       event.stopPropagation();
-      const response = await fetch(`http://localhost:3000/items/${id}`, {
+      const response = await fetch(`http://` + import.meta.env.VITE_API_URL + ":" + import.meta.env.VITE_API_PORT + `/items/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          isCompleted: event.target.checked ?? false,
+          isCompleted: (event.target as HTMLInputElement).checked ?? false,
         }),
       });
       if (response.ok) {
@@ -141,18 +143,18 @@ export default {
   text-decoration: none;
   position: relative;
   background-color: var(--color-background);
+  transition: background-color 0.2s ease-in-out;
 }
 
 .list-item.completed {
   background-color: #006400;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.list-item:hover {
-  background-color: #eee;
-}
-
-.list-item:hover div {
-  color: #000;
+.list-item input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
 }
 
 .list-item__title {
