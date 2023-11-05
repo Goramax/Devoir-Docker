@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe convert
+    kompose.version: 1.31.2 (a92241f79)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe convert
+        kompose.version: 1.31.2 (a92241f79)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/devoirdocker-default: "true"
+        io.kompose.service: db
+    spec:
+      containers:
+        - env:
+            - name: MYSQL_DATABASE
+              value: todo
+            - name: MYSQL_PASSWORD
+              value: w%CYo%8*APtFaX^dUdwZ
+            - name: MYSQL_ROOT_PASSWORD
+              value: JBBbzTaZsuu^H7WDnhLn
+            - name: MYSQL_USER
+              value: api
+          image: mysql@sha256:8b8835a2c32cd7357a5d2ea4b49ad870ff519c8c1d4add362803feddf4a0a973
+          name: db
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: db-claim0
+      restartPolicy: Always
+      volumes:
+        - name: db-claim0
+          persistentVolumeClaim:
+            claimName: db-claim0
+status: {}

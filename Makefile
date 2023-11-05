@@ -28,3 +28,9 @@ start:
 delete-all:
 	docker-compose down -v --rmi local --remove-orphans
 	docker image prune -a -f
+
+kube:
+	kubectl apply -f kubernetes
+
+kube-delete:
+	kubectl delete -f kubernetes
