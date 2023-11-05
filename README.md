@@ -121,7 +121,7 @@ make kube-delete
 ### Minikube
 
 Impossibilité pour kubernetes de récupérer les images depuis la machine hôte.
-![Image dashboard Minikube](https://www.dropbox.com/scl/fi/eaid2cy0jpl8gzyltp6cr/minikube-dashboard.png?rlkey=maz7z0a99bl2qcrqlr7lhtqe6&dl=1)
+![Image dashboard Minikube](./readme_images/minikube-dashboard.png)
 <span style="color:red">Failed to pull image "goramax/api:latest": rpc error: code = Unknown desc = Error response from daemon: pull access denied for goramax/api, repository does not exist or may require 'docker login': denied: requested access to the resource is denied</span>
 
 Je n'ai pas pu terminer le déploiement de la stack sur kubernetes.
