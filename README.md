@@ -10,6 +10,14 @@ Il est composé de :
 - Une API sous NestJS avec TypeORM
 - Une base de données MySQL.
 
+La BDD n'est pas exposée à l'extérieur du réseau docker, seul l'API peut y accéder.
+
+L'API est exposée sur le port 3000 (doc: http://localhost:3000/swagger).
+
+Le front est exposé sur le port 80 (http://localhost).
+
+Le volume de la BDD est persisté dans le dossier volumes/db, à la racine du projet.
+
 ## 2. Commandes de déploiement et gestion de la stack docker
 
 Nécessite docker, docker-compose et make.
