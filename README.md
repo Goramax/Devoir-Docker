@@ -1,5 +1,8 @@
 # Devoir Docker - Maxime Malherbe
 
+[!WARNING]
+Si le front et l'api redémarrent en boucle disant que ./entrypoint.sh n'existe pas, il faut changer l'encodage de fin de ligne des entrypoint.sh de CRLF à LF (J'avais normalement désactivé la conversion automatique de git mais visiblement ça n'a pas bien marché)
+
 ## 1. Introduction
 
 Le projet développé est une TodoList simple.
